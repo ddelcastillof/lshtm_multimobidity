@@ -1,0 +1,73 @@
+---
+title: "An exercise in data cleaning and manipulation with EHR data"
+author: "Darwin Del Castillo"
+format:
+  html:
+    theme: default
+    css: styles.css
+    toc: true
+    toc-depth: 1
+    embed-resources: true
+    scrollable: true
+    controls-layout: bottom-right
+    code-fold: true
+---
+
+```{r knitr-setup}
+#| include: false
+#| output: false
+#| eval: true
+#| echo: false
+#| warning: false
+#| message: false
+
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      include = TRUE,
+                      results = 'hide')
+```
+
+# Step 1: Loading datasets and data cleaning
+
+For this analysis, I will use the following packages:
+
+```{r loading packages}
+pacman::p_load(
+  tidyverse,
+  janitor,
+  skimr,
+  data.table,
+  gtsummary,
+  flextable)
+```
+
+`tidyverse` for data manipulation and visualization, `janitor` for useful functions for data exploration and cleaning, `data.table` for efficient memory allocation in data that exceed local memory resources, such is the case of EHR data processing, and `gtsummary` and `flextable` for creating summary tables.
+
+Since there are steps of the code which use `dplyr` operations over `data.table` objects, these are coerced into tibbles, which may lead to memory inefficiencies with large datasets. For solving these inefficiencies, I would use `dtplyr` to preserve the structure of the resulting datasets. Another option would be to use `data.table::merge` syntax for data manipulation. The differences are subtle at the current memory usage, but the differences would be more evident with larger EHR datasets. For simplicity, I will keep the current code structure.
+
+# Step 2: Source code for data loading and cleaning
+
+For loading the datasets, I used `data.table::fread()` function, which is optimized for loading large datasets. The code for loading and cleaning the datasets is as follows:
+
+```{r}
+#| file: "code/code_part_1.R"
+```
+
+After running the code above, the following datasets are available in the environment: `afib`, `pneumo`, `cases_medical`, `cases_personal`, and `cases_drugs`. Over these datasets, I performed data cleaning steps such as checking for duplicated patients, consistency between data types, and transforming dates to Date format using `lubridate`.
+
+# Step 3: Data manipulation
+
+For completing the processing steps, I created new variables using this code, such as age at diagnosis of aFib, and merged the datasets using `dplyr::left_join()` function or `dplyr. The code for these operations is as follows:
+
+```{r}
+#| file: "code/code_part_2.R"
+```
+
+# Step 4: Summary tables
+
+Finally, I created summary tables using `gtsummary` and `flextable` packages to present the results of the analysis. The code for creating these tables is as follows:
+
+```{r}
+#| file: "code/code_part_3.R"
+```
