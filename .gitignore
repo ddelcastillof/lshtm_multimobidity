@@ -1,0 +1,34 @@
+# Instructions
+/instructions/
+
+# data_raw files
+/data_raw/
+
+# output files
+/output/
+
+# R project files
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+.Rproj
+.Rbuildignore
+
+# macOS files
+.DS_Store
+
+# R rendered outputs
+*.html
+*.pdf
+*.docx
+/_site/
+
+# Quarto/RMarkdown
+/.quarto/
+*_cache/
+*_files/
+
+# Temporary files
+*.tmp
+*~
