@@ -32,7 +32,7 @@ knitr::opts_chunk$set(echo = TRUE,
 
 # Step 1: Loading datasets and data cleaning
 
-For this analysis, I will use the following packages:
+For this analysis I used on the following packages:
 
 ```{r loading packages}
 pacman::p_load(
@@ -44,9 +44,9 @@ pacman::p_load(
   flextable)
 ```
 
-`tidyverse` for data manipulation and visualization, `janitor` for useful functions for data exploration and cleaning, `data.table` for efficient memory allocation in data that exceed local memory resources, such is the case of EHR data processing, and `gtsummary` and `flextable` for creating summary tables.
+`tidyverse` provides a suite for data manipulation and visualisation, `janitor` provides quick data cleaning utilities, `skimr` gives compact dataset diagnostics, `data.table` offers memory-efficient operations for EHR-scale workloads, and `gtsummary`/`flextable` produce tidy tables for presentation purposes.
 
-Since there are steps of the code which use `dplyr` operations over `data.table` objects, these are coerced into tibbles, which may lead to memory inefficiencies with large datasets. For solving these inefficiencies, I would use `dtplyr` to preserve the structure of the resulting datasets. Another option would be to use `data.table::merge` syntax for data manipulation. The differences are subtle at the current memory usage, but the differences would be more evident with larger EHR datasets. For simplicity, I will keep the current code structure.
+Several steps apply `dplyr` functions to `data.table` objects, which coerces them to tibbles and can stress local memory on very large datasets. In real-world settings, I would use `dtplyr` to bypass the coercion to tibble, or use `data.table::merge()` directly. At the current dataset size the difference is modest, so I keep the current workflow for clarity.
 
 # Step 2: Source code for data loading and cleaning
 
