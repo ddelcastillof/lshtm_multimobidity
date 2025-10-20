@@ -3,17 +3,12 @@
 # Author: Darwin Del Castillo          #
 ########################################
 
-# Load necessary packages
-pacman::p_load(tidyverse,
-               skimr)
-
-
 # Importing datasets
-afib <- read_csv("data_raw/afib.csv")
-cases_drugs <- read_csv("data_raw/cases_drugs.csv")
-cases_medical <- read_csv("data_raw/cases_medical.csv")
-cases_personal <- read_csv("data_raw/cases_personal.csv")
-pneumo <- read_csv("data_raw/pneumo.csv")
+afib <- fread("data_raw/afib.csv")
+cases_drugs <- fread("data_raw/cases_drugs.csv")
+cases_medical <- fread("data_raw/cases_medical.csv")
+cases_personal <- fread("data_raw/cases_personal.csv")
+pneumo <- fread("data_raw/pneumo.csv")
 
 
 ## Data Cleaning ##
@@ -51,4 +46,20 @@ cases_medical <- cases_medical |>
 cases_drugs <- cases_drugs |>
   mutate(patid = as.character(patid))
 
+### date columns to Date format with lubridate (evntdate and dob)
+cases_medical <- cases_medical |>
+  mutate(evntdate_m = dmy(evntdate))
 
+cases_drugs <- cases_drugs |>
+  mutate(evntdate_m = dmy(evntdate))
+
+cases_personal <- cases_personal |>
+  mutate(dob_m = dmy(dob))
+
+## checking for duplicated patients in cases_personal
+dup_personal <- get_dupes(cases_personal)
+
+### there is a duplicate obs in cases_personal, so we will keep unique patid/dob entries
+
+cases_personal <- cases_personal |>
+  distinct(patid, dob_m, .keep_all = TRUE)
