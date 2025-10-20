@@ -92,3 +92,9 @@ afib_consults <- cases_medical |>
 enhanced_medical_records <- enhanced_medical_records |>
   left_join(pneumo_consults, by = "patid") |>
   left_join(afib_consults, by = "patid")
+
+#### Saving the enhanced medical records dataset
+write_csv(
+  enhanced_medical_records,
+  "output/enhanced_case_medical.csv"
+)
