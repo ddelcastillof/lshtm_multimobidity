@@ -1,0 +1,12 @@
+---
+title: "An exercise in data cleaning and manipulation with EHR data"
+author: "Darwin Del Castillo"
+date: today
+date-format: "MMMM D, YYYY"
+format:
+  docx:
+    toc: false
+    df-print: kable
+    lang: en-GB
+    
+---
