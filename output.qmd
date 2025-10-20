@@ -12,7 +12,7 @@ format:
     controls-layout: bottom-right
     code-fold: true
     output-file: output.html
-    output-dir: output
+    output-dir: output/
 ---
 
 ```{r knitr-setup}
@@ -73,3 +73,5 @@ Finally, I created summary tables using `gtsummary` and `flextable` packages to 
 ```{r}
 #| file: "code/code_part_3.R"
 ```
+
+All the individual scripts are available in the [GitHub repository](https://github.com/ddelcastillof/lshtm_multimobidity).
