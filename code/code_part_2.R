@@ -46,6 +46,21 @@ inconsistent_afib_dates <- enhanced_medical_records |>
   distinct(patid, dob_m, evntdate_afib)
 
 #### Two patients with inconsistent afib dates detected
+#### I will transform into NA the inconsistent evntdate_afib values
+enhanced_medical_records <- enhanced_medical_records |>
+  mutate(
+    afib_date_valid = atrial_fib == 1 &
+      !is.na(evntdate_afib) &
+      !is.na(dob_m) &
+      evntdate_afib >= dob_m,
+    evntdate_afib = if_else(afib_date_valid, evntdate_afib, as.Date(NA)),
+    age_afib = if_else(
+      afib_date_valid,
+      floor(time_length(dob_m %--% evntdate_afib, "years")),
+      NA_integer_
+    )
+  ) |>
+  select(-afib_date_valid)
 
 inconsistent_pneumo_dates <- enhanced_medical_records |>
   filter(
