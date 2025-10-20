@@ -53,26 +53,31 @@ afib_count <- n_distinct(enhanced_medical_records$patid[enhanced_medical_records
 afib_patients <- enhanced_medical_records |>
   filter(atrial_fib == 1) |>
   distinct(patid, .keep_all = TRUE) |>
-  select(age_afib, evntdate_afib, sex) |>
+  select(age_afib, evntdate_afib, sex, n_afib_days) |>
   mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
+  mutate(n_afib_days = as.integer(n_afib_days)) |>
   tbl_summary(
     type = list(
       age_afib ~ "continuous2",
       evntdate_afib ~ "continuous2",
+      n_afib_days ~ "continuous2",
       sex ~ "categorical"
     ),
     statistic = list(
       age_afib ~ c("{mean} ({sd})", "{min}", "{max}"),
       evntdate_afib ~ c("{min}", "{max}"),
+      n_afib_days ~ c("{min}", "{max}", "{mean} ({sd})"),
       sex ~ "{n} ({p}%)"
     ),
     digits = list(
       age_afib ~ c(1, 1, 0, 0),
+      n_afib_days ~ c(0, 0, 1, 1),
       sex ~ c(0, 1)
     ),
     label = list(
       age_afib = "Age at first atrial fibrillation diagnosis",
       evntdate_afib = "Date of first atrial fibrillation diagnosis",
+      n_afib_days = "Number of consultation days for atrial fibrillation",
       sex = "Sex"
     ),
     missing = "ifany"
@@ -102,6 +107,7 @@ pneumo_patients <- enhanced_medical_records |>
   distinct(patid, .keep_all = TRUE) |>
   select(evntdate_pneumo, n_pneumo_days, sex) |>
   mutate(sex = factor(sex, levels = c(1, 2), labels = c("Male", "Female"))) |>
+  mutate(n_pneumo_days = as.integer(n_pneumo_days)) |>
   tbl_summary(
     type = list(
       evntdate_pneumo ~ "continuous2",
@@ -110,11 +116,11 @@ pneumo_patients <- enhanced_medical_records |>
     ),
     statistic = list(
       evntdate_pneumo ~ c("{min}", "{max}"),
-      n_pneumo_days ~ c("{min}", "{max}"),
+      n_pneumo_days ~ c("{min}", "{max}", "{mean} ({sd})"),
       sex ~ "{n} ({p}%)"
     ),
     digits = list(
-      n_pneumo_days ~ c(0, 0),
+      n_pneumo_days ~ c(0, 0, 1, 1),
       sex ~ c(0, 1)
     ),
     label = list(

@@ -7,6 +7,57 @@ format:
   docx:
     toc: false
     df-print: kable
-    lang: en-GB
-    
+    lang: en-GB 
 ---
+
+```{r knitr-setup}
+#| include: false
+#| output: false
+#| eval: true
+#| echo: false
+#| warning: false
+#| message: false
+
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE,
+                      message = FALSE,
+                      include = TRUE,
+                      evaluate = TRUE,
+                      results = 'hide')
+```
+
+```{r loading-packages}
+pacman::p_load(
+    tidyverse,
+    janitor,
+    skimr,
+    data.table,
+    gtsummary,
+    flextable)
+```
+
+```{r running-scripts}
+source("code/code_part_1.R")
+source("code/code_part_2.R")
+```
+
+```{r running-tables}
+source("code/code_part_3.R")
+```
+
+# Table 1: Summary statistics of personal information
+`r summary_personal`
+
+The characteristics of the study population, including number of participants, sex, and date of birth, are summarized in Table 1. There were a total of `r n_distinct(cases_personal$patid)` patients included in the analysis. `r scales::percent(mean(cases_personal$sex == 1, na.rm = TRUE), accuracy = 0.1)` of the patients were male and the date of birth ranged from `r format(min(cases_personal$dob_m, na.rm = TRUE), '%Y-%m-%d')` to `r format(max(cases_personal$dob_m, na.rm = TRUE), '%Y-%m-%d')`.
+
+# Table 2: Summary statistics of patients with atrial fibrillation
+`r afib_patients`
+
+Table 2 summarises patients diagnosed with atrial fibrillation. We identified `r afib_count` individuals with an atrial fibrillation record, 35.4% of whom were male. Diagnosis dates spanned from `r format(min(enhanced_medical_records$evntdate_afib, na.rm = TRUE), '%Y-%m-%d')` to `r format(max(enhanced_medical_records$evntdate_afib, na.rm = TRUE), '%Y-%m-%d')`. Two inconsistent diagnosis dates were detected and set to `NA` during cleaning. 
+
+# Table 3: Summary statistics of patients with pneumococcal vaccination
+`r pneumo_patients`
+
+Table 3 summarises patients who received a pneumococcal vaccination. In total, `r pneumo_count` individuals had at least one vaccination record, 36.6% of whom were males. Vaccination dates ranged from `r format(min(enhanced_medical_records$evntdate_pneumo, na.rm = TRUE), '%Y-%m-%d')` to `r format(max(enhanced_medical_records$evntdate_pneumo, na.rm = TRUE), '%Y-%m-%d')`. There were no inconsistent vaccination dates detected in the dataset.
+
+Finally, among patients with both records, pneumococcal vaccination consultations ranged from 1 to 30 days (mean 2.5, SD 3.6), while atrial fibrillation consultations ranged from 1 to 12 days (mean 3.2, SD 2.3).
