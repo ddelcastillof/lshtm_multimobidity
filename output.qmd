@@ -11,6 +11,8 @@ format:
     scrollable: true
     controls-layout: bottom-right
     code-fold: true
+    output-file: output.html
+    output-dir: output
 ---
 
 ```{r knitr-setup}
