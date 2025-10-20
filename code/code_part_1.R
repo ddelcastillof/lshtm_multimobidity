@@ -25,7 +25,7 @@ skim(cases_drugs)
 skim(cases_medical)
 skim(cases_personal)
 
-### medcode in pneumo is numeric, so is better to convert it to char for joining operations
+### medcode in pneumo is numeric, so is better to convert it to string for joining operations
 pneumo <- pneumo |>
   mutate(medcode = as.character(medcode))
 
@@ -59,7 +59,6 @@ cases_personal <- cases_personal |>
 ## checking for duplicated patients in cases_personal
 dup_personal <- get_dupes(cases_personal)
 
-### there is a duplicate obs in cases_personal, so we will keep unique patid/dob entries
-
+### there is a dup obs in cases_personal, so I'll keep unique patid/dob entries
 cases_personal <- cases_personal |>
   distinct(patid, dob_m, .keep_all = TRUE)
